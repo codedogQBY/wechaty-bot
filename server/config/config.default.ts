@@ -11,7 +11,7 @@ export default (appInfo: EggAppInfo) => {
     dialect: 'mysql', // 数据库类型
     host: '127.0.0.1', // 连接地址
     port: 3306, // 连接端口
-    database: 'egg-ts', // 数据库名称
+    database: 'bot', // 数据库名称
     username: 'root', // 用户名
     password: 'root', // 密码
   };
@@ -27,7 +27,7 @@ export default (appInfo: EggAppInfo) => {
     },
   };
   config.jwt = {
-    secret: 'egg-ts',
+    secret: 'bot',
   };
   config.security = {
     csrf: {

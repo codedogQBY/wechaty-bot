@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev-static":"cd server & npm run dev",
+    "dev-server":"cd static & npm run server"
   },
   "author": "",
   "license": "ISC"
