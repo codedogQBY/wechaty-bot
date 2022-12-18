@@ -78,7 +78,7 @@ export default defineComponent({
           fieldName: 'userName',
           className: 'row',
           extraConfig: {
-            disabled,
+            disabled:true,
           },
           rules: [
             { required: true, message: '用户名不能为空', trigger: 'blur' },
@@ -152,7 +152,6 @@ export default defineComponent({
           label: '用户头像',
           fieldName: ['info', 'avatar'],
           vModel: formData.value.info.avatar,
-
           extraConfig: {
             showUploadList: false,
             beforeUpload,

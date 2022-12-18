@@ -45,7 +45,7 @@ export default class FileService extends Service {
           const putExtra = new qiniu.form_up.PutExtra() //  生成表单提交额外参数
           formUploader.putFile(
             ctx.service.file.updateToken(),
-            `upload/${type}/${file.filename}`, // 默认上传到upload文件夹下
+            `upload/${type}/${new Date().getTime()}-${file.filename}`, // 默认上传到upload文件夹下
             file.filepath,
             putExtra,
             function (respErr, respBody, respInfo) {

@@ -4,7 +4,7 @@ interface MailOptions {
   from?: string // 发件人
   to: string // 收件人
   subject?: string // 主题
-  text?: string // plain text body
+  text?: string // plain Text body
   html?: string // html body
 }
 class MailHelper {

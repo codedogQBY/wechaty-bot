@@ -23,7 +23,9 @@ const constantRouterComponents: Common.Params = {
 async function loadAllPage() {
   for (const path in modules) {
     const mod = await modules[path]();
-
+    console.log(path)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const file = mod.default;
     if (file.name) {
       file.displayName = file.name;

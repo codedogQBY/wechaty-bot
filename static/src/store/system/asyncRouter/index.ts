@@ -9,6 +9,7 @@ export const defineRouterStore = defineStore('asyncRouter', {
     generateRoutes() {
       return new Promise((resolve) => {
         generatorDynamicRouter().then((routers) => {
+          console.log(routers)
           this.addRouters = routers;
           resolve(undefined);
         });

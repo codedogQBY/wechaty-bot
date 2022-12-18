@@ -1,6 +1,7 @@
 import 'egg';
 import * as sequelize from 'sequelize';
 import { Redis, RedisOptions } from "ioredis";
+import {Wechaty} from 'wechaty'
 
 interface EggRedis {
     get(key: string): Redis;
@@ -8,6 +9,7 @@ interface EggRedis {
 declare module 'egg' {
     type ReturnType<T extends (...args: any) => any> = T extends (...args: any) => infer R ? R : any;
     interface Application {
+        bot: Wechaty;
         jwt: {
             sign(payload: any, secret: string, options?:any, callback?:function): string;
             verify(token: any, secret: string, options?:any, callback?:function): {uid:number,scope:string,iat:number};

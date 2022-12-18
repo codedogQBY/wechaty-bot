@@ -24,6 +24,12 @@ export default (appInfo: EggAppInfo) => {
         password: '',
         db: 0,
       },
+      bot: { // instanceName. See below
+        port: 6379, // Redis port
+        host: '127.0.0.1', // Redis host
+        password: '',
+        db: 0,
+      },
     },
   };
   config.jwt = {
@@ -40,9 +46,13 @@ export default (appInfo: EggAppInfo) => {
     accessKey: 'Eb_wsDCa59El5JsQpNeCug6OJrZFtKqDbYecOCMc',
     secretKey: '3_dhdwGLJc4gp49pKsHSoAfOJUWQ4ZxmA3foyKJC',
     bucket: 'next-blog', // 七牛云存储空间名
-  }
+  };
   config.multipart = {
     mode: 'file',
+  };
+
+  config.wechat = {
+    loginUrl: 'https://api.qrserver.com/v1/create-qr-code/?data='
   };
   return {
     ...config,

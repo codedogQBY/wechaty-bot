@@ -15,12 +15,12 @@ export default class User extends Service {
     try {
       const ctx = this.ctx;
       const query = {
-        where:{
+        where: {
           [Op.or]: [
-            {user_name: userName},
-            {email},
-          ], 
-        }
+            { user_name: userName },
+            { email },
+          ],
+        },
       };
       const res = await ctx.model.User.findAll(query);
       if (res.length > 0) {

@@ -52,7 +52,7 @@ export default defineComponent({
           label: '昵称',
           fieldName: 'nickName',
           rules: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
-          className: 'text-row',
+          className: 'Text-row',
         },
         {
           type: 'custom',
@@ -72,7 +72,7 @@ export default defineComponent({
           type: 'textarea',
           label: '个人简介',
           fieldName: 'profile',
-          className: 'text-row',
+          className: 'Text-row',
           extraConfig: {
             autoSize: { minRows: 4 },
           },

@@ -2,22 +2,40 @@
   "development": {
     "username": "root",
     "password": "root",
-    "database": "egg-ts",
+    "database": "bot",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "define":{
+      "charset": "utf8",
+      "dialectOptions":{
+          "collate": "utf8_general_ci"
+      }
+    }
   },
   "test": {
     "username": "root",
     "password": "root",
-    "database": "egg-ts",
+    "database": "bot",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "define":{
+      "charset": "utf8",
+      "dialectOptions":{
+          "collate": "utf8_general_ci"
+      }
+    }
   },
   "production": {
     "username": "root",
     "password": "root",
-    "database": "egg-ts",
+    "database": "bot",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "define":{
+      "charset": "utf8",
+      "dialectOptions":{
+          "collate": "utf8_general_ci"
+      }
+    }
   }
 }

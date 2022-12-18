@@ -14,14 +14,14 @@ export default (app: Application) => {
 
   // 用户相关
   router.get('/api/v1/system/user/getUserInfo', verifyToken, controller.user.getUserInfo);
-  router.post('/api/v1/system/user/editUserById', verifyToken, controller.user.editUser);
+  router.post('/api/v1/system/user/edit', verifyToken, controller.user.editUser);
   router.post('/api/v1/system/user/editInfo', verifyToken, controller.user.editUserInfo);
   router.post('/api/v1/system/user/getUserMenu', verifyToken, controller.user.getUserMenu);
   router.post('/api/v1/system/user/list', verifyToken, controller.user.getUserList);
   router.get('/api/v1/system/user/query', verifyToken, controller.user.query);
   router.post('/api/v1/system/user/add', verifyToken, controller.user.addUser);
-  router.post('/api/v1/system/user/editPassword/email', verifyToken,controller.user.editPasswordEmail);
-  router.post('/api/v1/system/user/editPassword', verifyToken,controller.user.editPassword);
+  router.post('/api/v1/system/user/editPassword/email', verifyToken, controller.user.editPasswordEmail);
+  router.post('/api/v1/system/user/editPassword', verifyToken, controller.user.editPassword);
   router.get('/api/v1/system/user/deleteUserByIds', verifyToken, controller.user.deleteUserByIds);
 
 
@@ -42,4 +42,24 @@ export default (app: Application) => {
 
   // 上传文件
   router.post('/api/v1/system/common/upload/img', verifyToken, controller.file.uploadImg);
+  router.post('/api/v1/system/common/upload/file', verifyToken, controller.file.uploadFile);
+
+  // 素材管理
+  router.post('/api/v1/material/add', verifyToken, controller.material.add);
+  router.get('/api/v1/material/delete', verifyToken, controller.material.delete);
+  router.post('/api/v1/material/edit', verifyToken, controller.material.edit);
+  router.post('/api/v1/material/list', verifyToken, controller.material.list);
+
+  // 机器人启动相关
+  router.get('/api/v1/bot/scan', controller.bot.scan);
+  router.get('/api/v1/bot/logout', controller.bot.logout);
+  router.get('/api/v1/bot/getUserSelf', controller.bot.getUserSelf);
+  router.get('/api/v1/bot/getLogonoff', controller.bot.getLogonoff);
+  // 好友管理 好友列表 好友搜索（昵称、备注）发消息 同步好友列表 每日说图片（先定着，不一定实现）
+
+  // 群管理 群列表 群搜索 发消息 群列表同步 关键词入群 群资讯 群定时任务 群合影（先定着，不一定实现）
+
+
+  // 撤回消息管理 列表 删除
+
 };

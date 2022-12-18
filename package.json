@@ -4,9 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev-static":"cd server & npm run dev",
-    "dev-server":"cd static & npm run server"
+    "dev-static": "cd static && npm run dev",
+    "dev-server": "cd server && npm run dev"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "file-box": "^1.4.15",
+    "wechaty-puppet-wechat": "^1.18.4"
+  }
 }

@@ -38,4 +38,16 @@ export const menuIconList = [
   {
     type: 'permission',
   },
+  {
+    type: 'material',
+  },
+  {
+    type: 'photo',
+  },
+  {
+    type: 'robot',
+  },
+  {
+    type: 'file',
+  },
 ];

@@ -362,7 +362,7 @@ export default defineComponent({
                       <PlusOutlined />
                     )}
 
-                    <div class="ant-upload-text">上传图片</div>
+                    <div class="ant-upload-text">上传文件</div>
                   </div>
                 )}
               </a-upload>

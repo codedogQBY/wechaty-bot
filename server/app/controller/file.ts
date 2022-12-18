@@ -14,18 +14,36 @@ interface File{
 export default class fileController extends Controller {
   public async uploadImg() {
     const { ctx } = this;
-      try {
-        const file = ctx.request.files[0] as unknown as File
-        const data = await ctx.service.file.uploadFiles(file,'image');
-        ctx.helper.response.handleSuccess({ ctx, msg: '上传图片成功', data: {
-            path: `/resource/${data.key}`,
-            name: file.filename,
-            mimetype: file.mimeType,
-            size: file.encoding,
-        } });
-      } catch (error) {
-          console.log(error);
-          ctx.helper.response.handleError({ ctx, msg: '上传图片失败' });
-      }
+    try {
+      const file = ctx.request.files[0] as unknown as File;
+      const data = await ctx.service.file.uploadFiles(file, 'image');
+      ctx.helper.response.handleSuccess({ ctx, msg: '上传图片成功', data: {
+        path: `/resource/${data.key}`,
+        name: file.filename,
+        mimetype: file.mimeType,
+        size: file.encoding,
+      } });
+    } catch (error) {
+      console.log(error);
+      ctx.helper.response.handleError({ ctx, msg: '上传图片失败' });
+    }
+  }
+
+  public async uploadFile() {
+    const { ctx } = this;
+    try {
+      const file = ctx.request.files[0] as unknown as File;
+      const type = file.filename.split('.')[1];
+      const data = await ctx.service.file.uploadFiles(file, type);
+      ctx.helper.response.handleSuccess({ ctx, msg: '上传文件成功', data: {
+        path: `/resource/${data.key}`,
+        name: file.filename,
+        mimetype: file.mimeType,
+        size: file.encoding,
+      } });
+    } catch (error) {
+      console.log(error);
+      ctx.helper.response.handleError({ ctx, msg: '上传文件失败' });
+    }
   }
 }

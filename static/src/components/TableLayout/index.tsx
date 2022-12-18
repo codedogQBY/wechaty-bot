@@ -12,7 +12,8 @@ export interface PaginationResponse<T> {
 }
 
 export type TableSearchFun = (
-  data: Common.PaginationParams
+  data: Common.PaginationParams,
+  expand?:Record<string, unknown>
 ) => Promise<PaginationResponse<Common.TreeNode>>;
 export default defineComponent({
   components: {},
@@ -171,6 +172,7 @@ export default defineComponent({
     return (
       <div class="table-layout">
         <CommonForm
+          v-show={!!getFormJson?.length}
           class="common-form"
           ref="commonFormRef"
           formData={formData}
@@ -179,6 +181,7 @@ export default defineComponent({
         {formBottom()}
         <div class="table-layout-table">
           <Tool
+            v-show={!!buttons?.length}
             buttons={buttons}
             selectedRowKeys={selectedRowKeys}
             tableData={tableData}

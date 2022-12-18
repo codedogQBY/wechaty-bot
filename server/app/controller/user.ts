@@ -1,5 +1,5 @@
 import { Controller } from 'egg';
-import { Op,QueryTypes } from 'sequelize';
+import { Op, QueryTypes } from 'sequelize';
 import svgCaptcha from 'svg-captcha';
 import { Account } from '../type/account';
 import { Menu } from '../type/menu';
@@ -67,16 +67,16 @@ export default class UserController extends Controller {
   }
 
   // 添加用户
-  public async addUser(){
+  public async addUser() {
     const ctx = this.ctx;
     try {
-      const { password, userName, email,info,roleIds} = ctx.request.body;
+      const { password, userName, email, info, roleIds } = ctx.request.body;
       const { bool, msg } = await ctx.service.user.checkUserNameAndEmail(userName, email);
       if (!bool) {
         await ctx.model.User.create({
           password, user_name: userName, email,
-          info:JSON.stringify(info),
-          role_ids:roleIds
+          info: JSON.stringify(info),
+          role_ids: roleIds,
         });
         ctx.helper.response.handleSuccess({ ctx, msg: '用户添加成功' });
       } else {
@@ -103,7 +103,7 @@ export default class UserController extends Controller {
       const { bool, msg } = await ctx.service.user.checkUserNameAndEmail(userName, email);
       if (!bool) {
         ctx.helper.response.handleError({ ctx, msg });
-      }else{
+      } else {
         const code = (Math.random() * 1000000).toFixed();
         // 在会话中添加验证码字段code
         ctx.session!.code = code;
@@ -168,17 +168,17 @@ export default class UserController extends Controller {
   public async editPassword() {
     const ctx = this.ctx;
     try {
-      const { code, emailCode,password } = ctx.request.body
+      const { code, emailCode, password } = ctx.request.body;
       // 这里懒得改，就是修改密码的图形验证码
-      if(code !== ctx.session.loginCode && emailCode !== ctx.session.editPasswordCode){
+      if (code !== ctx.session.loginCode && emailCode !== ctx.session.editPasswordCode) {
         ctx.helper.response.handleError({ ctx, msg: '邮箱验证码或者图形验证码错误！请仔细检查' });
-      }else{
-        const {uid} = ctx.auth
+      } else {
+        const { uid } = ctx.auth;
         await ctx.model.User.update({
-          password
+          password,
         }, {
           where: {
-            id:uid,
+            id: uid,
           },
         });
         ctx.helper.response.handleSuccess({ ctx, msg: '修改密码成功' });
@@ -193,14 +193,14 @@ export default class UserController extends Controller {
   public async deleteUserByIds() {
     const ctx = this.ctx;
     try {
-      const { ids } = ctx.request.query
+      const { ids } = ctx.request.query;
       await ctx.model.User.update({
-        deleted:1
+        deleted: 1,
       }, {
         where: {
-          id:{
-            [Op.in]:ids.split(',')
-          }
+          id: {
+            [Op.in]: ids.split(','),
+          },
         },
       });
       ctx.helper.response.handleSuccess({ ctx, msg: '删除用户成功' });
@@ -224,17 +224,17 @@ export default class UserController extends Controller {
       const loginCode = ctx.session!.loginCode;
       if (code !== loginCode) {
         ctx.helper.response.handleError({ ctx, msg: '验证码错误', data: false });
-      }else{
-        const user = await ctx.model.User.findOne({ where:{[Op.and]: [ {user_name:userName}, {deleted: 0} ]} });
+      } else {
+        const user = await ctx.model.User.findOne({ where: { [Op.and]: [{ user_name: userName }, { deleted: 0 }] } });
         if (user === null) {
           ctx.helper.response.handleError({ ctx, msg: '该用户不存在', data: false });
         } else {
           if (user.password !== password) {
             ctx.helper.response.handleError({ ctx, msg: '密码错误', data: false });
-          }else{
+          } else {
             const token = await ctx.service.user.generateToken(user.id, user.role_ids);
             await ctx.service.user.saveToken(token, user.id);
-            ctx.helper.response.handleSuccess({ ctx, msg: '登录成功', data:  token  });
+            ctx.helper.response.handleSuccess({ ctx, msg: '登录成功', data: token });
           }
         }
       }
@@ -261,7 +261,7 @@ export default class UserController extends Controller {
       noise: 3, // 干扰线条数目
       width: 100, // 宽度
       color: true,
-      background:'#F5FFFA'
+      background: '#F5FFFA',
     });
     ctx.session!.loginCode = captcha.text; // 把验证码赋值给session
     ctx.response.type = 'image/svg+xml';
@@ -279,8 +279,8 @@ export default class UserController extends Controller {
     const ctx = this.ctx;
     try {
       const { uid } = ctx.auth;
-      const user = await ctx.model.User.findOne({ attributes: [ 'user_name', 'role_ids', 'info', 'id' ], where:{[Op.and]: [ {id: uid}, {deleted: 0} ]} });
-      ctx.helper.response.handleSuccess({ ctx, msg: '查询用户信息成功', data: { ...user,userName:user.user_name } });
+      const user = await ctx.model.User.findOne({ attributes: [ 'user_name', 'role_ids', 'info', 'id' ], where: { [Op.and]: [{ id: uid }, { deleted: 0 }] } });
+      ctx.helper.response.handleSuccess({ ctx, msg: '查询用户信息成功', data: { ...user, userName: user.user_name } });
     } catch (error) {
       console.error(error);
       ctx.helper.response.handleError({ ctx, msg: '查询用户信息失败' });
@@ -354,8 +354,8 @@ export default class UserController extends Controller {
     const ctx = this.ctx;
     try {
       const { scope: roleIds } = ctx.auth;
-      let roleRes = await (ctx.model.Role.findAll()) as Account.Role[]
-      roleRes = roleRes.map(item => ctx.helper.utils.lineToHumpObject(item))as Account.Role[]
+      let roleRes = await (ctx.model.Role.findAll()) as Account.Role[];
+      roleRes = roleRes.map(item => ctx.helper.utils.lineToHumpObject(item))as Account.Role[];
       // 存放当前用户的角色和祖宗角色
       const roleList: Account.Role[] = [];
       // 过滤, 获取当前角色及当前角色的祖先角色的所有记录
@@ -371,7 +371,7 @@ export default class UserController extends Controller {
       const roleIdList: number[] = roleIds.split(',').map((str: string) => Number(str));
       roleIdList.forEach(roleId => {
         each(roleRes, roleId);
-      });      
+      });
 
       // 当前角色的角色树
       const roleTree = ctx.helper.utils.getTreeByList(roleList, 0) as unknown as Account.Role[];
@@ -387,14 +387,14 @@ export default class UserController extends Controller {
       };
       // 合并当前角色和当前角色的祖先角色的所有菜单
       merge(roleTree);
-      
-      
+
+
       // roleId 字段，角色，与权限相关
-      let res = await ctx.model.Menu.findAll({
+      const res = await ctx.model.Menu.findAll({
         attributes: [ 'id', 'name', 'show', 'icon', 'component', 'redirect', 'parent_id', 'path', 'hide_children', 'serial_num', 'permission', 'type' ],
-        where:{
+        where: {
           id: {
-            [Op.in]: menuList
+            [Op.in]: menuList,
           },
         },
       });
@@ -409,25 +409,25 @@ export default class UserController extends Controller {
       // 根据serialNum排序
       sortEach(res);
       // 构建前端需要的menu树
-      
+
       const list = (res as Menu.Menu[]).map(
-        (item) => {
+        item => {
           const {
-            parent_id:parentId,
+            parent_id: parentId,
             id,
             icon,
             show,
             component,
             redirect,
             path,
-            hide_children:hideChildren,
+            hide_children: hideChildren,
             children,
-            serial_num:serialNum,
+            serial_num: serialNum,
             permission,
             type,
-            name
-          } = item
-          
+            name,
+          } = item;
+
           const isHideChildren = Boolean(hideChildren);
           const isShow = Boolean(show);
           return {
@@ -436,7 +436,7 @@ export default class UserController extends Controller {
             id,
             meta: {
               icon,
-              title:name,
+              title: name,
               show: isShow,
               hideChildren: isHideChildren,
             },
@@ -463,7 +463,7 @@ export default class UserController extends Controller {
   async getUserList() {
     const ctx = this.ctx;
     try {
-      const { pageNum, pageSize,params } = ctx.request.body as unknown as Models.BasePaginationQuery;
+      const { pageNum, pageSize, params } = ctx.request.body as unknown as Models.BasePaginationQuery;
       const { name } = params;
       // 聚合查询
       const res = await ctx.model.query(`
@@ -483,7 +483,7 @@ export default class UserController extends Controller {
         ${name ? `AND user.user_name = ${`"${name}"`}` : ''}
       AND
         FIND_IN_SET(role.id , user.role_ids)
-        LIMIT ${pageNum-1}, ${pageSize}`,{ type: QueryTypes.SELECT }) as Account.User[];
+        LIMIT ${pageNum - 1}, ${pageSize}`, { type: QueryTypes.SELECT }) as Account.User[];
       const total = ctx.model.User.findAll().length;
       const list: Account.User[] = [];
       for (const key in res) {
@@ -491,8 +491,9 @@ export default class UserController extends Controller {
       }
       const data = ctx.helper.utils.getPagination(
         list.map(item => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          item.info = JSON.parse(item.info || "{}")
+          item.info = JSON.parse(item.info || '{}');
           return ctx.helper.utils.lineToHumpObject(item);
         }),
         total,
@@ -535,8 +536,8 @@ export default class UserController extends Controller {
         user.id = ${uid}
         AND FIND_IN_SET(role.id , user.role_ids)
         AND FIND_IN_SET(menu.id , role.menu_ids)
-  `,{ type: QueryTypes.SELECT }) as MenuList[]).map(item => {
-    
+  `, { type: QueryTypes.SELECT }) as MenuList[]).map(item => {
+
         item.info = JSON.parse(item.infoStr || '{}');
         return {
           ...item,

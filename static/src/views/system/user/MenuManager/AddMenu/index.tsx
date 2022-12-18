@@ -251,7 +251,9 @@ export default defineComponent({
     const handleIconClick = function () {
       isIconShow.value = true;
     };
-
+    const handleIconCancel = function (){
+      isIconShow.value = false
+    }
     const handleCancel = function () {
       visible.value = false;
       formData.value = {
@@ -345,6 +347,7 @@ export default defineComponent({
       show,
       instance,
       commonFormRef,
+      handleIconCancel
     };
   },
   mounted() {
@@ -362,6 +365,7 @@ export default defineComponent({
       handleSelectIcon,
       menuIconList,
       isIconShow,
+      handleIconCancel
     } = this;
     return (
       <a-modal
@@ -379,7 +383,7 @@ export default defineComponent({
           formData={formData}
           formJson={formJson}
         />
-        <a-modal visible={isIconShow} title="图标" footer={false}>
+        <a-modal onCancel={handleIconCancel} visible={isIconShow} title="图标" footer={false}>
           <div class="icon-container">
             {menuIconList.map((item) => (
               <div
