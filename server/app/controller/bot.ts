@@ -66,4 +66,24 @@ export default class BotController extends Controller {
       console.log(e);
     }
   }
+
+  async getAllFriends() {
+    const { ctx } = this;
+    try {
+      const { pageNum, pageSize } = ctx.request.body;
+      // const { name, alias } = params;
+      const allFriends = await ctx.service.bot.findAllFriend();
+      const list = allFriends?.slice((pageNum - 1) * pageSize, pageNum * pageSize);
+      const data = ctx.helper.utils.getPagination(
+        list,
+        allFriends?.length,
+        pageSize,
+        pageNum,
+      );
+      ctx.helper.response.handleSuccess({ ctx, msg: '获取好友列表成功', data });
+    } catch (e) {
+      ctx.helper.response.handleError({ ctx, msg: '获取好友列表失败' });
+      console.log(e);
+    }
+  }
 }

@@ -20,12 +20,9 @@ export default class FileService extends Service {
   }
   async findAllFriend() {
     const { app } = this;
-    let friends = app.redis.get('bot').get('friends');
-    if (!friends) {
-      friends = await app.bot.Contact.findAll();
-      await app.redis.get('bot').set('friends', friends);
-    }
-    return friends;
+    const friends = await app.bot.Contact.findAll();
+    const list = friends.map(item => item.payload).filter(item => item?.type !== app.bot.Contact.Type.Official);
+    return list;
   }
   async findAllRoom() {
     const { app } = this;

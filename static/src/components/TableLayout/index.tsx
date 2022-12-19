@@ -50,6 +50,10 @@ export default defineComponent({
       type: String,
       default: 'id',
     },
+    selected:{
+      type:Boolean,
+      default:true
+    }
   },
   setup(props) {
     // 分页
@@ -66,10 +70,10 @@ export default defineComponent({
     ) {
       selectedRowKeys.value = [...newSelectedRowKeys];
     };
-    const rowSelection = {
-      columnWidth: 20,
+    const rowSelection =props.selected ? {
+      columnWidth:  30,
       onChange: handleTableRowChange,
-    };
+    } : null;
 
     const handleSearch = function () {
       loading.value = true;

@@ -56,7 +56,7 @@ export default (app: Application) => {
   router.get('/api/v1/bot/getUserSelf', controller.bot.getUserSelf);
   router.get('/api/v1/bot/getLogonoff', controller.bot.getLogonoff);
   // 好友管理 好友列表 好友搜索（昵称、备注）发消息 同步好友列表 每日说图片（先定着，不一定实现）
-
+  router.post('/api/v1/bot/getAllFriends', controller.bot.getAllFriends);
   // 群管理 群列表 群搜索 发消息 群列表同步 关键词入群 群资讯 群定时任务 群合影（先定着，不一定实现）
 
 
